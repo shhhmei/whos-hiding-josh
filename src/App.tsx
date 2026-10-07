@@ -10,7 +10,7 @@ export default function App() {
     <BrowserRouter>
       <header className="site-header">
         <Link to="/" className="brand">
-          <span aria-hidden="true">🏐</span> Who's hiding Josh <span className="brand-sub">(and Cynthia)</span>
+          <span aria-hidden="true">🏐</span> Let's Learn Serve Receive <span className="brand-sub">(from First Principles!)</span>
         </Link>
         <nav>
           <NavLink to="/rules/1">Rules</NavLink>
