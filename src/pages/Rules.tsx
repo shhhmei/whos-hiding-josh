@@ -187,11 +187,13 @@ function StepThree() {
         </li>
       </ol>
       <p>
-        or, anywhere on the court, the setter is <b>stacked</b>: standing tightly right behind a teammate (within about a
-        tenth of the court sideways and under a third of the court deep).
+        or, anywhere on the court, the setter is <b>stacked</b>: standing tightly right behind a teammate.
       </p>
       <p>
         If the setter is in the <b>front row</b> (Rotations 1–3) there is nothing to hide. You only need a legal formation.
+      </p>
+      <p>
+        Once we take care of the setter, <b>the next priority is to make life easier for the front row hitters to get in position to hit</b> (eg. start closer to where they should be starting their approach, near the 10 foot line, if possible, etc.) 
       </p>
       <h3>Example: the setter in position 1 (Rotation 4)</h3>
       <div className="figure-row">
