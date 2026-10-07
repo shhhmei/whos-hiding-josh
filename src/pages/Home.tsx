@@ -28,6 +28,9 @@ export default function Home() {
           <Link className="btn" to="/practice">
             Jump to practice
           </Link>
+          <Link className="btn" to="/where">
+            See where you'd be
+          </Link>
         </div>
         <ul className="legend">
           <li>

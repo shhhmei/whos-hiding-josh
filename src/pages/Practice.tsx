@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Court from '../components/Court'
+import PlayAs from '../components/PlayAs'
 import {
   BASE_SPOT,
   ROTATIONS,
@@ -8,11 +9,12 @@ import {
   seatsForRotation,
 } from '../logic/lineup'
 import type { Seat } from '../logic/lineup'
+import { usePick } from '../logic/pick'
 import { REFERENCE, placementFromOption } from '../logic/reference'
 import { evaluate } from '../logic/rules'
 import type { Rule } from '../logic/rules'
 import type { Pos, Pt } from '../logic/types'
-import { arrowsFromBase, tokensFromByPos } from '../logic/view'
+import { arrowsFromBase, namedTokens, tokensFromByPos } from '../logic/view'
 
 const pick = <T,>(xs: T[]): T => xs[Math.floor(Math.random() * xs.length)]
 
@@ -28,6 +30,9 @@ export default function Practice() {
   const [showZones, setShowZones] = useState(false)
   const [onlyBackRow, setOnlyBackRow] = useState(false)
 
+  // Your name and position are saved, so the same teammates follow you from rotation to rotation.
+  const me = usePick('5-1')
+  const who = me.assignment
   const seats = seatsForRotation(rotation)
   const info = describeRotation(rotation)
 
@@ -47,7 +52,8 @@ export default function Practice() {
   const players = seats.map((s) => ({ id: s.role.id, pos: s.pos, isSetter: s.role.isSetter, at: placed[s.role.id] }))
   const byPos = Object.fromEntries(players.map((p) => [p.pos, p.at])) as Record<Pos, Pt>
   const ev = evaluate(players)
-  const tokens = tokensFromByPos(seats, byPos)
+  const tokens = who ? namedTokens(seats, byPos, who.byRole, who.youRoleId, false) : tokensFromByPos(seats, byPos)
+  const showAt = (at: Record<Pos, Pt>) => (who ? namedTokens(seats, at, who.byRole, who.youRoleId, false) : tokensFromByPos(seats, at))
   const lines = checked ? ev.rules.map((r) => ({ a: byPos[r.rule.a], b: byPos[r.rule.b], ok: r.ok })) : []
 
   const labelAt = (p: Pos) => seats.find((s) => s.pos === p)!.role.label
@@ -114,6 +120,11 @@ export default function Practice() {
             <li>
               <i className="dot back" /> Back-row spot
             </li>
+            {who && (
+              <li>
+                <i className="dot you" /> You
+              </li>
+            )}
           </ul>
         </div>
 
@@ -153,9 +164,19 @@ export default function Practice() {
             ))}
           </div>
 
+          <details className="roster" open={!!me.person}>
+            <summary>Play as yourself (names instead of S, OH1…)</summary>
+            <PlayAs pick={me} />
+            {who && (
+              <p className="muted">
+                You're {who.youRoleId}. Saved on this device, so you'll keep the same teammates in every rotation.
+              </p>
+            )}
+          </details>
+
           <label className="check">
             <input type="checkbox" checked={onlyBackRow} onChange={(e) => setOnlyBackRow(e.target.checked)} /> Random
-            rotations: only back-row setter
+            rotations: only back-row setter (aka a "6-2", aka what we played last weekend)
           </label>
           <label className="check">
             <input type="checkbox" checked={showZones} onChange={(e) => setShowZones(e.target.checked)} /> Hint: show the
@@ -233,7 +254,7 @@ export default function Practice() {
                 <Court
                   size="sm"
                   zones={info.backRow}
-                  tokens={tokensFromByPos(seats, opt.at)}
+                  tokens={showAt(opt.at)}
                   arrows={arrowsFromBase(seats, opt.at)}
                   label={opt.name}
                 />

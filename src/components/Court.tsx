@@ -161,17 +161,24 @@ export default function Court({
       {tokens.map((t) => (
         <div
           key={t.id}
-          className={`token ${t.tone}${active === t.id ? ' dragging' : ''}`}
+          className={`token ${t.tone}${t.sub ? ' pill' : ''}${t.you ? ' you' : ''}${active === t.id ? ' dragging' : ''}`}
           style={{ left: `${t.at.x * 100}%`, top: `${t.at.y * 100}%` }}
           tabIndex={onMove ? 0 : -1}
-          aria-label={`${t.label} token`}
+          aria-label={t.sub ? `${t.label} (${t.sub})${t.you ? ', you' : ''}` : `${t.label} token`}
           onPointerDown={(e) => down(e, t)}
           onPointerMove={move}
           onPointerUp={up}
           onPointerCancel={up}
           onKeyDown={(e) => key(e, t)}
         >
-          {t.label}
+          {t.sub ? (
+            <>
+              <span>{t.label}</span>
+              <span className="sub">{t.sub}</span>
+            </>
+          ) : (
+            t.label
+          )}
         </div>
       ))}
     </div>

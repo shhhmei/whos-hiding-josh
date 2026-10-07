@@ -1,5 +1,6 @@
 import { BASE_SPOT, isFrontRow } from './lineup'
 import type { Seat } from './lineup'
+import type { Person } from './roster'
 import { checkRules } from './rules'
 import type { Player } from './rules'
 import type { Arrow, LineMark, Pos, Pt, Token, Tone } from './types'
@@ -13,6 +14,27 @@ export function toneFor(seat: Seat): Tone {
 
 export function tokensFromByPos(seats: Seat[], byPos: ByPos): Token[] {
   return seats.map((s) => ({ id: s.role.id, label: s.role.label, tone: toneFor(s), at: byPos[s.pos] }))
+}
+
+/**
+ * Tokens showing who is playing each slot: their name, with the slot underneath, and a highlight on `youRoleId`.
+ * With two setters (a 6-2) only the back-row one is coloured as the setter; the other is hitting.
+ */
+export function namedTokens(
+  seats: Seat[],
+  byPos: ByPos,
+  byRole: Record<string, Person>,
+  youRoleId: string,
+  frontSetterHits: boolean,
+): Token[] {
+  return seats.map((s) => ({
+    id: s.role.id,
+    label: byRole[s.role.id].short,
+    sub: s.role.label,
+    tone: s.role.isSetter && !(frontSetterHits && isFrontRow(s.pos)) ? 'setter' : isFrontRow(s.pos) ? 'front' : 'back',
+    at: byPos[s.pos],
+    you: s.role.id === youRoleId,
+  }))
 }
 
 /** Arrows from each rotation spot to where that player stands (skipping tiny moves). */

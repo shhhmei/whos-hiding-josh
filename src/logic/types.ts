@@ -13,11 +13,18 @@ export interface Pt {
 
 export type Tone = 'setter' | 'front' | 'back'
 
+/** The kinds of position a person can play. */
+export type PositionType = 'Setter' | 'Outside' | 'Middle' | 'Oppo'
+
 export interface Token {
   id: string
   label: string
   tone: Tone
   at: Pt
+  /** Small second line under the label (e.g. the role under a player's name). */
+  sub?: string
+  /** Highlight this token as "you". */
+  you?: boolean
 }
 
 export interface Arrow {

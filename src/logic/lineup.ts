@@ -1,4 +1,4 @@
-import type { Pos, Pt } from './types'
+import type { Pos, PositionType, Pt } from './types'
 
 export interface Role {
   id: string
@@ -7,6 +7,10 @@ export interface Role {
   /** Long name used in the rules text. */
   title: string
   isSetter: boolean
+  /** Which kind of player can fill this slot (see roster.ts). */
+  position: PositionType
+  /** Other positions a setter-capable player can be picked as for this slot (6-2: an 'Oppo' hitting while the other setter sets). */
+  pickAs?: PositionType[]
 }
 
 /**
@@ -16,12 +20,12 @@ export interface Role {
  * flag two roles as setters). Everything else (rotations, rules, hide check) reads from here.
  */
 export const LINEUP: Role[] = [
-  { id: 'S', label: 'S', title: 'Setter', isSetter: true },
-  { id: 'OH1', label: 'OH1', title: 'Outside hitter 1', isSetter: false },
-  { id: 'M1', label: 'M1', title: 'Middle blocker 1', isSetter: false },
-  { id: 'OP', label: 'OP', title: 'Opposite', isSetter: false },
-  { id: 'OH2', label: 'OH2', title: 'Outside hitter 2', isSetter: false },
-  { id: 'M2', label: 'M2', title: 'Middle blocker 2', isSetter: false },
+  { id: 'S', label: 'S', title: 'Setter', isSetter: true, position: 'Setter' },
+  { id: 'OH1', label: 'OH1', title: 'Outside hitter 1', isSetter: false, position: 'Outside' },
+  { id: 'M1', label: 'M1', title: 'Middle blocker 1', isSetter: false, position: 'Middle' },
+  { id: 'OP', label: 'OP', title: 'Opposite', isSetter: false, position: 'Oppo' },
+  { id: 'OH2', label: 'OH2', title: 'Outside hitter 2', isSetter: false, position: 'Outside' },
+  { id: 'M2', label: 'M2', title: 'Middle blocker 2', isSetter: false, position: 'Middle' },
 ]
 
 /**
@@ -29,12 +33,12 @@ export const LINEUP: Role[] = [
  * Whichever setter is in the back row sets; the one in the front row hits as the opposite.
  */
 export const LINEUP_62: Role[] = [
-  { id: 'S1', label: 'S1', title: 'Setter 1', isSetter: true },
-  { id: 'OH1', label: 'OH1', title: 'Outside hitter 1', isSetter: false },
-  { id: 'M1', label: 'M1', title: 'Middle blocker 1', isSetter: false },
-  { id: 'S2', label: 'S2', title: 'Setter 2', isSetter: true },
-  { id: 'OH2', label: 'OH2', title: 'Outside hitter 2', isSetter: false },
-  { id: 'M2', label: 'M2', title: 'Middle blocker 2', isSetter: false },
+  { id: 'S1', label: 'S1', title: 'Setter 1', isSetter: true, position: 'Setter', pickAs: ['Oppo'] },
+  { id: 'OH1', label: 'OH1', title: 'Outside hitter 1', isSetter: false, position: 'Outside' },
+  { id: 'M1', label: 'M1', title: 'Middle blocker 1', isSetter: false, position: 'Middle' },
+  { id: 'S2', label: 'S2', title: 'Setter 2', isSetter: true, position: 'Setter', pickAs: ['Oppo'] },
+  { id: 'OH2', label: 'OH2', title: 'Outside hitter 2', isSetter: false, position: 'Outside' },
+  { id: 'M2', label: 'M2', title: 'Middle blocker 2', isSetter: false, position: 'Middle' },
 ]
 
 /**

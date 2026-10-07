@@ -22,10 +22,13 @@ npm run build    # type-check + production build into dist/
 | --- | --- |
 | `src/logic/lineup.ts` | **Start here for naming changes.** `LINEUP` is the roles in serving order (labels, `isSetter`). Also the rotation math (`seatsForRotation`) and the six base spots. |
 | `src/logic/rules.ts` | The seven overlap comparisons (`RULES`), the "hidden" check (`HIDE` thresholds), and `evaluate()`. |
+| `src/logic/roster.ts` | The team and what each person can play (`ROSTER`). Edit this to add people or change positions. |
+| `src/logic/pick.ts` | `usePick`: your name/position/shuffle saved in localStorage (shared by Practice and "See where you'd be"). |
+| `src/logic/assign.ts` | Fills a lineup from the roster: your pick first, then a uniformly random valid fill. Each `Role` in `lineup.ts` has a `position` (Setter/Outside/Middle/Oppo). |
 | `src/logic/reference.ts` | Hard-coded "ways to do it" per rotation, in court coordinates. |
 | `src/logic/logic.test.ts` | Checks the rotation order, the rules, and that every reference formation is legal and hides the setter. |
 | `src/components/Court.tsx` | The court: draggable tokens, rule lines, movement arrows, hide zones. |
-| `src/pages/` | `Home`, `Rules` (3 steps), `SixTwo` (the 6-2 page), `Practice`. |
+| `src/pages/` | `Home`, `Rules` (3 steps), `SixTwo` (the 6-2 page), `Practice`, `Where` (also a "Play as yourself" panel on Practice; "See where you'd be": pick your name + position, the rest is filled from the roster). |
 
 The 6-2 lineup (`LINEUP_62` in `lineup.ts`) is the same six spots with a second setter where the opposite would be. The hiding formations only depend on which spot the back-row setter is in, so the 6-2 page reuses the same `REFERENCE` entries via `referenceForSeats()`.
 

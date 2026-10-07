@@ -177,15 +177,19 @@ function StepThree() {
         When the setter is in the back row, they are not there to pass. They need to get to the net, near the target on
         the right side, and set. So we want them legal but <b>hidden</b>: out in a corner and screened by a teammate.
       </p>
-      <p>This app calls a back-row setter hidden when all of these are true:</p>
+      <p>This app calls a back-row setter hidden when the formation is legal and the setter is tucked or stacked:</p>
       <ol>
         <li>The whole formation is legal (no overlap faults).</li>
-        <li>The setter is inside one of the sideline hide zones (the shaded strips below).</li>
         <li>
-          A teammate is between the setter and the net, close enough to screen them (roughly within a fifth of the court
-          sideways and under half the court deep).
+          The setter is <b>tucked</b>: inside one of the sideline hide zones (the shaded strips below), with a teammate
+          between them and the net, close enough to screen them (roughly within a fifth of the court sideways and under
+          half the court deep).
         </li>
       </ol>
+      <p>
+        or, anywhere on the court, the setter is <b>stacked</b>: standing tightly right behind a teammate (within about a
+        tenth of the court sideways and under a third of the court deep).
+      </p>
       <p>
         If the setter is in the <b>front row</b> (Rotations 1–3) there is nothing to hide. You only need a legal formation.
       </p>

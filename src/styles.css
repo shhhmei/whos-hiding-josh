@@ -580,3 +580,113 @@ main {
     display: none;
   }
 }
+
+/* ---------- named tokens ("See where you'd be") ---------- */
+
+.token.pill {
+  width: auto;
+  height: auto;
+  min-width: var(--tok);
+  min-height: var(--tok);
+  padding: 3px 9px;
+  border-radius: 16px;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.1;
+  text-align: center;
+  white-space: nowrap;
+  font-size: calc(var(--tok) * 0.32);
+}
+
+.token .sub {
+  font-size: 0.78em;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.court.sm .token .sub {
+  display: none;
+}
+
+.token.you {
+  outline: 3px solid #f5b301;
+  outline-offset: 2px;
+  z-index: 4;
+}
+
+.dot.you {
+  background: #fff;
+  outline: 2px solid #f5b301;
+}
+
+/* ---------- forms and tables ---------- */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.field select {
+  font: inherit;
+  font-weight: 500;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+
+.field select:disabled {
+  background: #f1ede4;
+  color: var(--muted);
+}
+
+.lineup {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.lineup th,
+.lineup td {
+  text-align: left;
+  padding: 0.35rem 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.lineup tr.you td {
+  background: #fff6d6;
+  font-weight: 700;
+}
+
+.lineup th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+details.roster {
+  margin: 0.75rem 0 0;
+  font-size: 0.92rem;
+}
+
+details.roster summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.site-header nav {
+  flex-wrap: wrap;
+}
