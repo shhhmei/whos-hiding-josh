@@ -70,7 +70,7 @@ export default function Practice() {
     banner = {
       tone: 'warn',
       title: 'Legal, but the setter is not hidden yet',
-      body: 'Tuck the setter into a sideline hide zone with a teammate between them and the net.',
+      body: 'Tuck the setter into a sideline hide zone with a teammate in front, or stack them tightly right behind a teammate.',
     }
   } else if (ev.hide.length === 0) {
     banner = {
@@ -187,16 +187,30 @@ export default function Practice() {
                   <ul className="results">
                     {ev.hide.map((h) => (
                       <li key={h.setterId} className="stack">
-                        <span className={h.onSideline ? 'ok' : 'bad'}>
-                          <span aria-hidden="true">{h.onSideline ? '✓' : '✗'}</span> {labelOf(h.setterId)} is in a sideline
-                          hide zone
-                        </span>
-                        <span className={h.shieldId ? 'ok' : 'bad'}>
-                          <span aria-hidden="true">{h.shieldId ? '✓' : '✗'}</span>{' '}
-                          {h.shieldId
-                            ? `${labelOf(h.shieldId)} is between ${labelOf(h.setterId)} and the net`
-                            : `a teammate is close enough, in front of ${labelOf(h.setterId)}, to screen them`}
-                        </span>
+                        {h.stackId ? (
+                          <span className="ok">
+                            <span aria-hidden="true">✓</span> {labelOf(h.setterId)} is stacked right behind{' '}
+                            {labelOf(h.stackId)}
+                          </span>
+                        ) : (
+                          <>
+                            <span className={h.onSideline ? 'ok' : 'bad'}>
+                              <span aria-hidden="true">{h.onSideline ? '✓' : '✗'}</span> {labelOf(h.setterId)} is in a
+                              sideline hide zone
+                            </span>
+                            <span className={h.shieldId ? 'ok' : 'bad'}>
+                              <span aria-hidden="true">{h.shieldId ? '✓' : '✗'}</span>{' '}
+                              {h.shieldId
+                                ? `${labelOf(h.shieldId)} is between ${labelOf(h.setterId)} and the net`
+                                : `a teammate is close enough, in front of ${labelOf(h.setterId)}, to screen them`}
+                            </span>
+                            {!h.ok && (
+                              <span className="muted">
+                                Or stack {labelOf(h.setterId)} tightly right behind a teammate instead.
+                              </span>
+                            )}
+                          </>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -226,6 +240,7 @@ export default function Practice() {
                 <figcaption>
                   <b>
                     Option {i + 1}: {opt.name}
+                    {opt.preferred ? ' ★ preferred' : ''}
                   </b>
                   <br />
                   {opt.blurb}

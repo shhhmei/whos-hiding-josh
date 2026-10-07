@@ -1,4 +1,4 @@
-import { BASE_SPOT } from './lineup'
+import { BASE_SPOT, isFrontRow } from './lineup'
 import type { Seat } from './lineup'
 import type { Pos, Pt } from './types'
 
@@ -9,6 +9,8 @@ const P = (x: number, y: number): Pt => ({ x, y })
 export interface RefOption {
   name: string
   blurb: string
+  /** The team's favourite way to do it. Shown with a star. */
+  preferred?: boolean
   /** Where each ROTATION SPOT's player stands when the ball is served. */
   at: ByPos
 }
@@ -66,7 +68,7 @@ export const REFERENCE: Record<number, RefOption[]> = {
   ],
   5: [
     {
-      name: 'Stack right, beside the position 1 passer',
+      name: 'Tuck beside the position 1 passer',
       blurb:
         'Position 1 shoves out to the right sideline, which lets the setter (position 6) stand just inside them, screened from the net.',
       at: { 4: P(0.14, 0.4), 3: P(0.5, 0.16), 2: P(0.78, 0.16), 5: P(0.36, 0.74), 6: P(0.84, 0.78), 1: P(0.95, 0.62) },
@@ -76,6 +78,13 @@ export const REFERENCE: Record<number, RefOption[]> = {
       blurb:
         'Position 1 drops deep in the corner and the setter steps up the right side, right next to the position 2 hitter.',
       at: { 4: P(0.14, 0.4), 3: P(0.5, 0.16), 2: P(0.72, 0.18), 5: P(0.3, 0.72), 6: P(0.84, 0.46), 1: P(0.95, 0.82) },
+    },
+    {
+      name: 'Stack behind the opposite',
+      preferred: true,
+      blurb:
+        'The setter (position 6) stands directly behind the position 3 player, who slides right toward the target with the position 2 hitter out wide. They start stacked, so the setter is screened without needing a sideline.',
+      at: { 4: P(0.14, 0.4), 3: P(0.72, 0.14), 2: P(0.92, 0.14), 5: P(0.3, 0.74), 6: P(0.72, 0.36), 1: P(0.94, 0.6) },
     },
   ],
   6: [
@@ -91,6 +100,19 @@ export const REFERENCE: Record<number, RefOption[]> = {
       at: { 4: P(0.16, 0.4), 3: P(0.5, 0.16), 2: P(0.84, 0.16), 5: P(0.06, 0.78), 6: P(0.4, 0.72), 1: P(0.8, 0.76) },
     },
   ],
+}
+
+/** Which REFERENCE entry goes with the setter starting in each position. */
+const ROTATION_FOR_SETTER_POS: Record<Pos, number> = { 4: 1, 3: 2, 2: 3, 1: 4, 6: 5, 5: 6 }
+
+/**
+ * Reference formations for any lineup. The formations only depend on which spot the setter is in,
+ * so this works for a 6-2 too: it follows the setter who is in the back row.
+ */
+export function referenceForSeats(seats: Seat[]): RefOption[] {
+  const setters = seats.filter((s) => s.role.isSetter)
+  const lead = setters.find((s) => !isFrontRow(s.pos)) ?? setters[0]
+  return REFERENCE[ROTATION_FOR_SETTER_POS[lead.pos]]
 }
 
 /** Placement keyed by role id, ready to drop onto the practice court. */

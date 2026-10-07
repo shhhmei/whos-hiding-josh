@@ -25,6 +25,19 @@ export const LINEUP: Role[] = [
 ]
 
 /**
+ * The 6-2 lineup: two setters (S1, S2) three spots apart, no dedicated opposite.
+ * Whichever setter is in the back row sets; the one in the front row hits as the opposite.
+ */
+export const LINEUP_62: Role[] = [
+  { id: 'S1', label: 'S1', title: 'Setter 1', isSetter: true },
+  { id: 'OH1', label: 'OH1', title: 'Outside hitter 1', isSetter: false },
+  { id: 'M1', label: 'M1', title: 'Middle blocker 1', isSetter: false },
+  { id: 'S2', label: 'S2', title: 'Setter 2', isSetter: true },
+  { id: 'OH2', label: 'OH2', title: 'Outside hitter 2', isSetter: false },
+  { id: 'M2', label: 'M2', title: 'Middle blocker 2', isSetter: false },
+]
+
+/**
  * The court positions in serving-order direction (counter-clockwise around the court):
  * down the left side, across the back, up the right side, back across the net.
  * In Rotation 1 the first role in LINEUP (the setter) is at SEQ[0] = position 4.
@@ -55,10 +68,10 @@ export interface Seat {
  * (4→3→2→1→6→5→4), which is one step backwards along SEQ.
  * Rotation 1 = setter in position 4, then 3, 2 (front row), 1, 6, 5 (back row).
  */
-export function seatsForRotation(rotation: number): Seat[] {
+export function seatsForRotation(rotation: number, lineup: Role[] = LINEUP): Seat[] {
   const shift = rotation - 1
   const n = SEQ.length
-  return LINEUP.map((role, i) => ({ role, pos: SEQ[(((i - shift) % n) + n) % n] }))
+  return lineup.map((role, i) => ({ role, pos: SEQ[(((i - shift) % n) + n) % n] }))
 }
 
 export function describeRotation(rotation: number): { where: string; backRow: boolean } {

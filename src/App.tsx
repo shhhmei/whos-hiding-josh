@@ -2,6 +2,7 @@ import { BrowserRouter, Link, NavLink, Navigate, Route, Routes } from 'react-rou
 import Home from './pages/Home'
 import Practice from './pages/Practice'
 import Rules from './pages/Rules'
+import SixTwo from './pages/SixTwo'
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         </Link>
         <nav>
           <NavLink to="/rules/1">Rules</NavLink>
+          <NavLink to="/six-two">6-2</NavLink>
           <NavLink to="/practice">Practice</NavLink>
         </nav>
       </header>
@@ -20,6 +22,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/rules" element={<Navigate to="/rules/1" replace />} />
           <Route path="/rules/:step" element={<Rules />} />
+          <Route path="/six-two" element={<SixTwo />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

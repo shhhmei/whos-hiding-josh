@@ -15,12 +15,16 @@ function Figure({ caption, children }: { caption: ReactNode; children: ReactNode
   )
 }
 
-const SPOT_TOKENS: Token[] = ([4, 3, 2, 5, 6, 1] as Pos[]).map((p) => ({
-  id: `p${p}`,
-  label: String(p),
-  tone: isFrontRow(p) ? 'front' : 'back',
-  at: BASE_SPOT[p],
-}))
+/** Tokens labelled with their position numbers (1-6) instead of roles. */
+const numberTokens = (byPos: Record<Pos, Pt>): Token[] =>
+  ([4, 3, 2, 5, 6, 1] as Pos[]).map((p) => ({
+    id: `p${p}`,
+    label: String(p),
+    tone: isFrontRow(p) ? 'front' : 'back',
+    at: byPos[p],
+  }))
+
+const SPOT_TOKENS = numberTokens(BASE_SPOT)
 
 // Everyone moves one spot clockwise when the team rotates.
 const ROTATE_ARROWS: Arrow[] = (
@@ -53,10 +57,6 @@ function StepOne() {
           <p>
             <b>Rotating.</b> We rotate on side outs.
           </p>
-          <p>
-            <b>Row follows the spot, not the role.</b> Your row is decided by your rotation spot (4, 3, 2 are front row;
-            5, 6, 1 are back row), no matter where you actually stand when the ball is served.
-          </p>
         </div>
       </div>
 
@@ -67,7 +67,7 @@ function StepOne() {
         meet them in that order when the setter is in position 4.
       </p>
       <p>
-        That gives six different looks. We number them by where the setter starts: Rotations 1–3 have the setter in the
+        That gives six different possible starting points. We number them by where the setter starts: Rotations 1–3 have the setter in the
         front row (positions 4, 3, 2); Rotations 4–6 have the setter in the back row (positions 1, 6, 5).
       </p>
       <p>
@@ -114,10 +114,10 @@ const ILLEGAL_EXAMPLE: Record<Pos, Pt> = {
 function StepTwo() {
   return (
     <>
-      <h2>2 · The overlap rules</h2>
+      <h2>2 · The Law</h2>
       <p>
         At the moment the ball is served, your team has to be standing in an order that matches your rotation spots.
-        Once the server hits the ball, nobody is restricted any more and everyone can run wherever they like.
+        Once the server hits the ball, it's a free for all and everyone can run wherever they like. But until then, we need to start in order of rotation. 
       </p>
       <p>
         The idea is simple: each player has to fit <b>in between</b> the players next to them in the rotation (the ones
@@ -144,22 +144,21 @@ function StepTwo() {
       </div>
       <p>
         <b>Everything else is free.</b> For example, nothing compares 4 with 6, or 2 with 6. A front-row player can even
-        stand deep in the court, as long as the back-row player on their line is deeper still. In real matches the
-        referee judges by where your feet touch the floor; here, a near-tie counts as an overlap, so leave a clear gap.
+        stand deep in the court, as long as the back-row player on their line is deeper still.
       </p>
       <div className="figure-row">
         <Figure caption="Legal: all seven comparisons hold (green lines).">
           <Court
             size="md"
-            tokens={tokensFromByPos(ROT4, LEGAL_EXAMPLE)}
+            tokens={numberTokens(LEGAL_EXAMPLE)}
             lines={linesFromByPos(LEGAL_EXAMPLE)}
             label="A legal formation"
           />
         </Figure>
-        <Figure caption="Illegal: M1 (position 3) is behind M2 (position 6), and OH2 (position 5) is right of M2 (position 6).">
+        <Figure caption="Illegal: 3 is behind 6, and 5 is right of 6 (red lines).">
           <Court
             size="md"
-            tokens={tokensFromByPos(ROT4, ILLEGAL_EXAMPLE)}
+            tokens={numberTokens(ILLEGAL_EXAMPLE)}
             lines={linesFromByPos(ILLEGAL_EXAMPLE)}
             label="An illegal formation"
           />
