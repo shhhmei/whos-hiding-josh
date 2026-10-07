@@ -51,8 +51,7 @@ function StepOne() {
             <b>Serving.</b> The player in position 1 serves.
           </p>
           <p>
-            <b>Rotating.</b> Each time your team wins the ball back from the other team's serve, everyone rotates one
-            spot clockwise: 2→1, 1→6, 6→5, 5→4, 4→3, 3→2. Whoever lands in position 1 serves next.
+            <b>Rotating.</b> We rotate on side outs.
           </p>
           <p>
             <b>Row follows the spot, not the role.</b> Your row is decided by your rotation spot (4, 3, 2 are front row;
@@ -63,13 +62,16 @@ function StepOne() {
 
       <h3>Serving order and the six rotations</h3>
       <p>
-        Because everyone rotates together, the serving order never changes. In this app it is{' '}
+        Because everyone rotates together, the serving order never changes. For us that's {' '}
         <b>{LINEUP.map((r) => r.label).join(' → ')}</b>. Going around the court counter-clockwise (4, 5, 6, 1, 2, 3) you
         meet them in that order when the setter is in position 4.
       </p>
       <p>
         That gives six different looks. We number them by where the setter starts: Rotations 1–3 have the setter in the
         front row (positions 4, 3, 2); Rotations 4–6 have the setter in the back row (positions 1, 6, 5).
+      </p>
+      <p>
+        <b>The core premise is that we need to stay in this formation, but we're allowed to play around with this as long as there's a way to argue that we're "technically" in this formation...</b>
       </p>
       <div className="mini-grid">
         {ROTATIONS.map((rot) => {
